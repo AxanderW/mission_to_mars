@@ -1,0 +1,83 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mission to Mars</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="main.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron text-center">
+            <h1>Mission to Mars</h1>
+            <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape Mars Data</a></p>
+
+        </div> <!-- CLOSE BUTTON-->
+
+    
+    <!-- Mars News-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class ="media">
+                <div class = "media-body">
+                <h3>Latest Mars News</h3><br>
+                 <h4 class="media-heading">{{mars_data.news_title}}</h4>
+                <p>{{mars_data.news_p}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MARS NEWS-->
+
+    <!-- START FEAT IMG-->
+    <div class ="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <h3>Featured Mars Image</h3>
+            <img src="{{mars_data.featured_image}}" class="img-responsive">
+        </div>
+
+    </div> <!-- END FEAT IMG-->
+    <div class="col-md-4">
+        <!--MARS WEATHER-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h4>Current Weather on Mars</h4>
+                        <p>{{mars_data.weather}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--END MARS WEATHER-->
+    <!--MARS FACTS-->
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Mars Facts</h4>
+            {{mars_data.facts}}
+        </div>
+    </div>
+
+    <!--END MARS FACTS-->
+    <!-- MARS HEMISPHERES-->
+    <div class="row" style="margin-top:80px;">
+        <div class="page-header">
+            <h2 class="text-center">Mars Hemispheres</h2>
+        </div>
+    
+    </div>
+    {{mars_data.hemis}}
+   
+
+
+
+    </div> <!-- CLOSE OUTER CONTAINTER-->
+
+
+    
+</body>
+</html>
