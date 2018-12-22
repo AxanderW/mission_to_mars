@@ -5,26 +5,34 @@ from splinter.exceptions import ElementDoesNotExist
 from bs4 import BeautifulSoup as bs
 import requests
 import pandas as pd
-import time
-
-def init_browser():
-    # @NOTE: Replace the path with your actual path to the chromedriver
-    executable_path = {'executable_path': 'chromedriver.exe'}
-    return Browser('chrome', **executable_path, headless=False)
+import time 
+import datetime as dt
 
 def scrape_info():
-    browser = init_browser()
-    news = mars_latest_news(browser)
+
+    # @NOTE: Replace the path with your actual path to the chromedriver
+    browser = Browser("chrome", executable_path="chromedriver", headless=True)
+    #return Browser('chrome', **executable_path, headless=False)
+    news_title, news_p = mars_latest_news(browser)
     feat_img = mars_feat_img(browser)
     weather = mars_weather(browser)
     facts = mars_facts(browser)
     hemis = mars_hemi(browser)
-    mars_data = {"mars_news":news, "mars_feat_img":feat_img,"mars_weather":weather,"mars_facts":facts,"mars_hemispheres":hemis}
-
+    mars_data = {
+            "news_title":news_title, 
+            "news_paragraph":news_p,
+            "featured_image":feat_img,
+            "weather":weather,
+            "facts":facts,
+            "hemispheres":hemis,
+            "last_scrape": dt.datetime.now()}
+            
+    print(mars_data)
     # Close browser
     browser.quit()
     # return results
     return(mars_data)
+   
 
 def mars_latest_news(browser):
     # Visit visitcostarica.herokuapp.com
@@ -46,10 +54,10 @@ def mars_latest_news(browser):
     news_p = item_list.find('div', class_='article_teaser_body').text
     news.append(news_p)
     #%%
-    print(news_title)
+    #print(news_title)
     print(news_p)
-    print(news)
-    return(news)
+    #print(news)
+    return news_title, news_p
 def mars_feat_img(browser):
     # ### JPL Mars Space Images - Featured Image
     # * Visit the url for JPL Featured Space Image [here](https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars).
@@ -66,9 +74,9 @@ def mars_feat_img(browser):
     soup = bs(html, 'html.parser')
     src_img = soup.find('figure',class_='lede').find('img')['src']
     #print(src_img)
-    featured_image_url = f'https://www.jpl.nasa.gov{src_img}'
-    print(featured_image_url)
-    return(featured_image)
+    image_url = f'https://www.jpl.nasa.gov{src_img}'
+    #print(image_url)
+    return(image_url)
 def mars_weather(browser):
     # ### Mars Weather 
     # * Visit the Mars Weather twitter account [here](https://twitter.com/marswxreport?lang=en) and scrape the latest Mars weather tweet from the page. 
@@ -81,9 +89,9 @@ def mars_weather(browser):
     html = browser.html
     soup = bs(html, "html.parser")
 
-    weather = soup.find('div',class_='js-tweet-text-container').find('p',class_='TweetTextSize').get_text()
-    print(weather)
-    return(weather)
+    mars_weather = soup.find('div',class_='js-tweet-text-container').find('p',class_='TweetTextSize').get_text()
+    #print(mars_weather)
+    return(mars_weather)
 def mars_facts(browser):
     # ### Mars Facts
     # 
@@ -98,8 +106,8 @@ def mars_facts(browser):
     html_string = table_facts_df.to_html()
     html_string = html_string.replace('\n','')
 
-    print(html_string) 
-    return(html_string)
+    #print(html_string) 
+    return(table_facts_df)
 def mars_hemi(browser):   
     # ### Mars Hemispheres
     # * Visit the USGS Astrogeology site [here](https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars)
@@ -120,9 +128,9 @@ def mars_hemi(browser):
         hemi_urls.append(hemis)
         browser.back()
         time.sleep(1)        
-    print(hemi_urls)
+    #print(hemi_urls)
     return(hemi_urls)
 #init_browser()
-scrape_info()
+#scrape_info()
 
 

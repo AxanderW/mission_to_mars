@@ -23,7 +23,7 @@
             <div class ="media">
                 <div class = "media-body">
                 <h3>Latest Mars News</h3><br>
-                 <h4 class="media-heading">{{mars_data.news_title}}</h4>
+                 <h4 class="media-heading">{{mars_data.news_title}}</h4></br>
                 <p>{{mars_data.news_p}}</p>
                 </div>
             </div>
@@ -68,9 +68,14 @@
         <div class="page-header">
             <h2 class="text-center">Mars Hemispheres</h2>
         </div>
+        {% for hemispheres in mars_data.hemis %}
+            <div class="col-md-6">
+                <img src="{{hemisphere.img_url}}">
+            </div>
     
     </div>
-    {{mars_data.hemis}}
+    {% endfor %}
+    <!-- {{mars_data.hemis}}--> 
    
 
 
